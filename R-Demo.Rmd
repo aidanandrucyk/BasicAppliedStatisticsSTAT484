@@ -1,0 +1,256 @@
+---
+title: "Rdemo"
+author: "Aidan Andrucyk"
+date: "9/8/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 4
+```{r}
+install.packages("pacman")
+require(MASS) 
+require(pacman)
+library(pacman)
+```
+# 5
+```{r}
+getwd()
+# commented out because I do not want to modify the working directory
+# setwd([path])
+```
+
+# 6
+```{r}
+# atoms: numeric or character==
+a <- 1425
+a
+# vectors: linear structure made of atoms of the same type
+v <- c(1, 5, 2, 6, 1)
+v
+# factor: categorical 
+factor_apple <- factor(c('red','green','yellow','red','red','red','green'))
+factor_apple
+# matrix: structure of dimension 2 mode of numbers or characters
+M = matrix( c('a','a','b',
+              'c','b','a'), nrow = 2, ncol = 3, byrow = TRUE)
+M
+# array: matrix generalization (can be any number of dimensions)
+arr <- array(c('green','yellow'),dim = c(2,3,2))
+arr
+# list: linear structure of any collection of objects
+lst <- list(c(2,5,3), 420.69, sin, "Hello World!")
+print(list)
+# data.frame: data table with columns = variables, rows=observations. A data.frame is also a list.
+BMI <- 	data.frame(
+   A = c("Car", "Truck","Motorcycle"), 
+   B = c(14342, 14361.5, 123165), 
+   C = c(811, 923, 178),
+   D = c( 12, 51, 29)
+)
+print(BMI)
+```
+# 7 Example
+```{r}
+7 %% 5
+7 %% 3 + 4%/% 3
+7 %% 3^2
+1:5 # Sequence
+27:3
+1:5 + 1:5 # vectors
+1:5 + 3 # precedence
+2^(1:5)
+c(1,2*4,4, 10:12) # function that combines vectors
+c("dog","cat","mouse")
+```
+# 7 Exercise 1
+```{r}
+c(2:5,1:5,1:5)
+```
+# 7 Exercise 2
+```{r}
+c("Monday", "Tuesday", "Wednesday")
+```
+# 8 
+```{r}
+Parimes = c(1,2,3,5,7,11)
+greeting = "Hello World"
+nom = rnorm(1000,mean=2,sd=2)
+nom = rnorm(1000,mean=(m <- 2),sd=m) # Differences between '<-' and '='
+runif(10) # Random numbers
+# equivalent terms
+sqrt(var(nom))
+sd(nom) # Ex compute std. dev. of x
+```
+# 9.1 Text Files 
+```{r}
+X = read.table("C:/Users/austr/Documents/Data Science/Stat384/test.txt", head=T)
+attach(X)
+x = X[, "x"]
+z <- sin(x/5)
+plot(x) #simple scatter plot
+plot(x,y) #
+plot(x,z,type="l") # line plot , connected lines
+plot(x,z,type="n") # do not plot, then
+text(x,z,seq(x)) # use text to label each point from 1 to n
+```
+# 9.2 CSV Files 
+```{r}
+X = read.csv("C:/Users/austr/Documents/Data Science/Stat384/test.csv", head=T) 
+```
+
+# 9.3 Reading SAS export file 
+```{r}
+require(foreign)
+hospital = read.xport("hosp.xpt")
+hospital[1:2,] # Shows the first two rows of the data
+```
+
+# 9.4 Output Data
+```{r}
+write.table(pima,file="C:/Users/austr/Documents/Data Science/Stat384/PIMA1.txt",row.names=F)
+```
+
+# 9.5 Save and Load
+```{r}
+save(list=c("x","y","z"), file="C:/saved.txt", compress=F)
+save.image(file="C:/.RData", compress=F)
+load( file="C:/saved.txt" )
+```
+
+# 10 
+```{r}
+data(faithful)
+plot(faithful)
+# Statistical model notation y ~ x1 + x2 means model y = a + b x1 + c x2
+# y ~ x1 + x2 + x1:x2 is y = a + b x1 + c x2 + d x1 x2 (interaction)
+lm(waiting ~ eruptions, data=faithful)
+abline(33,10)
+abline(v=3.1)
+title(sub="This is the faithful data")
+```
+# 11 
+```{r}
+X
+ X[ 3,1:2]
+ rownum <- 1:4 # get odd rows
+ rownum %% 2
+ X[rownum %%2 ==1 , ]
+ X[ -1,-c(1,3)]
+ nrow(X)
+ ncol(X)
+ Y <- 1:4
+ XX <- as.matrix(X)
+ XX %*%Y
+ Y <- rnorm(6)
+ solve(t(XX) %*% XX) %*% (t(XX) %*% Y)
+ X <- matrix(rnorm(18),6,3)
+ Y <- X%*% c(1,2,3) + rnorm(6)/4
+ solve(t(X) %*% X) %*% (t(X) %*% Y)
+ lsfit(X,Y,int=F)
+```
+# 12 
+```{r}
+x <- rnorm(10)
+u <- x > 0
+u
+x[u]
+x
+```
+# 13
+```{r}
+x <- rnorm(10)
+u <- sum(x)
+x
+if( u < 0) 
+{ x <- -x }
+x
+```
+# 14
+```{r}
+z <- matrix(rnorm(200),20,10)
+mean.samp <- NULL
+for(i in 1:10) { mean.samp[i] <- mean(z[,i]) }
+stem(mean.samp)
+apply(z,2,mean) # does the same thing
+```
+# 15
+```{r}
+fourmom <- function(x) {
+ m1 <- c(mean(x))
+ if(is.na(m1)) return("Error: There are NA’s")
+ m2 <- mean(x^2)
+ m3 <- mean(x^3)
+ m4 <- mean(x^4)
+ c(m1=m1,m2=m2,m3=m3,m4=m4)
+}
+x <- rnorm(10)
+fourmom(x)
+```
+# 16
+```{r}
+require(mva) 
+library(mva)
+## the variances of the variables in the
+## USArrests data vary by orders of magnitude
+data(USArrests)
+(pc.cr <- princomp(USArrests))
+princomp(USArrests, cor = TRUE)
+princomp(scale(USArrests, scale = TRUE, center = TRUE), cor = FALSE)
+summary(pc.cr <- princomp(USArrests))
+loadings(pc.cr)
+plot(pc.cr) # does a screeplot.
+biplot(pc.cr)
+```
+# 17
+```{r}
+ctl = c(4.17,5.58,5.18,6.11,4.50,4.61,5.17,4.53,5.33,5.14)
+trt = c(4.81,4.17,4.41,3.59,5.87,3.83,6.03,4.89,4.32,4.69)
+group <- gl(2,10,20, labels=c("Ctl","Trt"))
+weight <- c(ctl, trt)
+anova(lm.D9 <- lm(weight ~ group))
+summary(lm.D90 <- lm(weight ~ group - 1))# omitting intercept
+summary(resid(lm.D9) - resid(lm.D90)) #- residuals almost identical
+opar <- par(mfrow = c(2,2), oma = c(0, 0, 1.1, 0))
+plot(lm.D9, las = 1) # Residuals, Fitted, ...
+par(opar)
+```
+# 18
+```{r}
+data(cars)
+attach(cars)
+plot(speed, dist, main = "data(cars) & smoothing splines")
+cars.spl <- smooth.spline(speed, dist)
+(cars.spl)
+all(cars.spl $ w == table(speed)) # TRUE (weights = multiplicities)
+lines(cars.spl, col = "blue")
+lines(smooth.spline(speed, dist, df=10), lty=2, col = "red")
+legend(5,120,c(paste("default [C.V.] => df =",round(cars.spl$df,1)),
+ "s( * , df = 10)"), col = c("blue","red"), lty = 1:2, bg='bisque')
+detach()
+```
+# 18
+```{r}
+# hospital.csv is a broken link as of this submission
+hosp = read.csv("C:/Users/austr/Documents/Data Science/Stat384/hospital.csv")
+pairs(hosp[,8:12])
+# The next step in analyzing this data set is doing transformations.
+group = hosp$TH +hosp$TRAUMA*2 +hosp$REHAB*4
+table(group)
+boxplot( split(hosp$SALES12,group))
+boxplot( split(log(1+hosp$SALES12),group))
+hosp.lm = lm(SALES12 ~ TH + TRAUMA+REHAB,data=hosp)
+anova(hosp.lm)
+summary(hosp.lm)
+hosp.lm1 = lm(SALES12 ~ factor(group),data=hosp)
+anova(hosp.lm1)
+summary(hosp.lm1)
+```
+
+
+
+
+
